@@ -16,12 +16,15 @@ const (
 )
 
 type Service struct {
-	apiKey      string
-	httpService *go_http.Service
+	apiKey        string
+	isTest        bool
+	httpService   *go_http.Service
+	errorResponse *ErrorResponse
 }
 
 type ServiceConfig struct {
 	ApiKey string
+	IsTest bool
 }
 
 func NewService(serviceConfig *ServiceConfig) (*Service, *errortools.Error) {
@@ -40,18 +43,19 @@ func NewService(serviceConfig *ServiceConfig) (*Service, *errortools.Error) {
 
 	return &Service{
 		apiKey:      serviceConfig.ApiKey,
+		isTest:      serviceConfig.IsTest,
 		httpService: httpService,
 	}, nil
 }
 
 func (service *Service) httpRequest(requestConfig *go_http.RequestConfig) (*http.Request, *http.Response, *errortools.Error) {
 	// add error model
-	errorResponse := ErrorResponse{}
-	(*requestConfig).ErrorModel = &errorResponse
+	service.errorResponse = &ErrorResponse{}
+	(*requestConfig).ErrorModel = &service.errorResponse
 
 	request, response, e := service.httpService.HttpRequest(requestConfig)
-	if len(errorResponse.Fout) > 0 {
-		e.SetMessage(errorResponse.Fout[0].Omschrijving)
+	if len(service.errorResponse.Fout) > 0 {
+		e.SetMessage(service.errorResponse.Fout[0].Omschrijving)
 	}
 
 	return request, response, e
@@ -64,7 +68,12 @@ func (service *Service) url(path string, values *url.Values) string {
 	}
 	values_.Set("user_key", service.apiKey)
 
-	return fmt.Sprintf("%s/%s?%s", apiPath, path, values_.Encode())
+	apiPath_ := apiPath
+	if service.isTest {
+		apiPath_ = apiPathTest
+	}
+
+	return fmt.Sprintf("%s/%s?%s", apiPath_, path, values_.Encode())
 }
 
 func (service *Service) ApiName() string {
@@ -81,4 +90,8 @@ func (service *Service) ApiCallCount() int64 {
 
 func (service *Service) ApiReset() {
 	service.httpService.ResetRequestCount()
+}
+
+func (service *Service) ErrorResponse() *ErrorResponse {
+	return service.errorResponse
 }

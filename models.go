@@ -1,9 +1,5 @@
 package kvk
 
-import (
-	go_types "github.com/leapforce-libraries/go_types"
-)
-
 type Resultaat struct {
 	Pagina     int32           `json:"pagina"`
 	Aantal     int32           `json:"aantal"`
@@ -15,16 +11,16 @@ type Resultaat struct {
 }
 
 type ResultaatItem struct {
-	KvkNummer            go_types.Int64String `json:"kvkNummer"`
-	Rsin                 string               `json:"rsin"`
-	Vestigingsnummer     go_types.Int64String `json:"vestigingsnummer"`
-	Handelsnaam          string               `json:"handelsnaam"`
-	Straatnaam           string               `json:"straatnaam"`
-	Huisnummer           int64                `json:"huisnummer"`
-	HuisnummerToevoeging string               `json:"huisnummerToevoeging"`
-	Postcode             string               `json:"postcode"`
-	Plaats               string               `json:"plaats"`
-	Type                 string               `json:"type"`
+	KvkNummer            string `json:"kvkNummer"`
+	Rsin                 string `json:"rsin"`
+	Vestigingsnummer     string `json:"vestigingsnummer"`
+	Handelsnaam          string `json:"handelsnaam"`
+	Straatnaam           string `json:"straatnaam"`
+	Huisnummer           int64  `json:"huisnummer"`
+	HuisnummerToevoeging string `json:"huisnummerToevoeging"`
+	Postcode             string `json:"postcode"`
+	Plaats               string `json:"plaats"`
+	Type                 string `json:"type"`
 }
 
 type Adres struct {
@@ -47,7 +43,7 @@ type Adres struct {
 }
 
 type Basisprofiel struct {
-	KvkNummer               go_types.Int64String `json:"kvkNummer"`
+	KvkNummer               string               `json:"kvkNummer"`
 	IndNonMailing           string               `json:"indNonMailing"`
 	Naam                    string               `json:"naam"`
 	FormeleRegistratiedatum string               `json:"formeleRegistratiedatum"`
@@ -56,6 +52,8 @@ type Basisprofiel struct {
 	StatutaireNaam          string               `json:"statutaireNaam"`
 	Handelsnamen            []Handelsnaam        `json:"handelsnamen"`
 	SbiActiviteiten         []SbiActiviteit      `json:"sbiActiviteiten"`
+	Links                   []Link               `json:"links"`
+	Embedded                EmbeddedContainer    `json:"_embedded"`
 }
 
 type Eigenaar struct {
@@ -111,8 +109,8 @@ type SbiActiviteit struct {
 }
 
 type Vestiging struct {
-	Vestigingsnummer         go_types.Int64String `json:"vestigingsnummer"`
-	KvkNummer                go_types.Int64String `json:"kvkNummer"`
+	Vestigingsnummer         string               `json:"vestigingsnummer"`
+	KvkNummer                string               `json:"kvkNummer"`
 	Rsin                     string               `json:"rsin"`
 	IndNonMailing            string               `json:"indNonMailing"`
 	MaterieleRegistratie     MaterieleRegistratie `json:"materieleRegistratie"`
@@ -130,21 +128,21 @@ type Vestiging struct {
 }
 
 type VestigingBasis struct {
-	Vestigingsnummer        go_types.Int64String `json:"vestigingsnummer"`
-	KvkNummer               go_types.Int64String `json:"kvkNummer"`
-	EersteHandelsnaam       string               `json:"eersteHandelsnaam"`
-	IndHoofdvestiging       string               `json:"indHoofdvestiging"`
-	IndAdresAfgeschermd     string               `json:"indAdresAfgeschermd"`
-	IndCommercieleVestiging string               `json:"indCommercieleVestiging"`
-	VolledigAdres           string               `json:"volledigAdres"`
-	Links                   []Link               `json:"links"`
+	Vestigingsnummer        string `json:"vestigingsnummer"`
+	KvkNummer               string `json:"kvkNummer"`
+	EersteHandelsnaam       string `json:"eersteHandelsnaam"`
+	IndHoofdvestiging       string `json:"indHoofdvestiging"`
+	IndAdresAfgeschermd     string `json:"indAdresAfgeschermd"`
+	IndCommercieleVestiging string `json:"indCommercieleVestiging"`
+	VolledigAdres           string `json:"volledigAdres"`
+	Links                   []Link `json:"links"`
 }
 
 type VestigingList struct {
-	KvkNummer                        go_types.Int64String `json:"kvkNummer"`
-	AantalCommercieleVestigingen     int64                `json:"aantalCommercieleVestigingen"`
-	AantalNietCommercieleVestigingen int64                `json:"aantalNietCommercieleVestigingen"`
-	TotaalAantalVestigingen          int64                `json:"totaalAantalVestigingen"`
-	Vestigingen                      []VestigingBasis     `json:"vestigingen"`
-	Links                            []Link               `json:"links"`
+	KvkNummer                        string           `json:"kvkNummer"`
+	AantalCommercieleVestigingen     int64            `json:"aantalCommercieleVestigingen"`
+	AantalNietCommercieleVestigingen int64            `json:"aantalNietCommercieleVestigingen"`
+	TotaalAantalVestigingen          int64            `json:"totaalAantalVestigingen"`
+	Vestigingen                      []VestigingBasis `json:"vestigingen"`
+	Links                            []Link           `json:"links"`
 }

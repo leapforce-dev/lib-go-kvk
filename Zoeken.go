@@ -17,10 +17,10 @@ const (
 	KvkTypeRechtspersoon  KvkType = "rechtspersoon"
 )
 
-type SearchConfig struct {
-	KvkNummer          *int64
+type ZoekenConfig struct {
+	KvkNummer          *string
 	Rsin               *string
-	Vestigingsnummer   *int64
+	Vestigingsnummer   *string
 	Handelsnaam        *string
 	Straatnaam         *string
 	Plaats             *string
@@ -37,20 +37,20 @@ type SearchConfig struct {
 
 // GetAccounts returns all accounts
 //
-func (service *Service) Zoeken(config *SearchConfig) (*[]ResultaatItem, *errortools.Error) {
+func (service *Service) Zoeken(config *ZoekenConfig) (*[]ResultaatItem, *errortools.Error) {
 	if config == nil {
 		return nil, errortools.ErrorMessage("config must not be nil")
 	}
 
 	values := url.Values{}
 	if config.KvkNummer != nil {
-		values.Set("kvkNummer", fmt.Sprintf("%v", *config.KvkNummer))
+		values.Set("kvkNummer", *config.KvkNummer)
 	}
 	if config.Rsin != nil {
 		values.Set("rsin", *config.Rsin)
 	}
 	if config.Vestigingsnummer != nil {
-		values.Set("vestigingsnummer", fmt.Sprintf("%v", *config.Vestigingsnummer))
+		values.Set("vestigingsnummer", *config.Vestigingsnummer)
 	}
 	if config.Handelsnaam != nil {
 		values.Set("handelsnaam", *config.Handelsnaam)
