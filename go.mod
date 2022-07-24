@@ -5,7 +5,6 @@ go 1.18
 require (
 	github.com/leapforce-libraries/go_errortools v0.0.0-20211119145736-7b9b61c20618
 	github.com/leapforce-libraries/go_http v0.0.0-20220406191830-0235c3965bb8
-	github.com/leapforce-libraries/go_types v0.0.0-20220220161618-e9b1045c3ef2
 )
 
 require (
@@ -23,6 +22,7 @@ require (
 	github.com/leapforce-libraries/go_google v0.0.0-20220220163223-304493bbfe12 // indirect
 	github.com/leapforce-libraries/go_googlecloudstorage v0.0.0-20220220163255-cbfe4f06b7b6 // indirect
 	github.com/leapforce-libraries/go_integration v0.0.0-20220220163349-c13b3f3aa9d5 // indirect
+	github.com/leapforce-libraries/go_types v0.0.0-20220220161618-e9b1045c3ef2 // indirect
 	github.com/leapforce-libraries/go_utilities v0.0.0-20220220164324-92b1cdd45ebf // indirect
 	go.opencensus.io v0.23.0 // indirect
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
