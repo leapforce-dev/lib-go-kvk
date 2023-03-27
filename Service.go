@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"regexp"
 	"time"
 
 	errortools "github.com/leapforce-libraries/go_errortools"
@@ -13,15 +14,17 @@ import (
 )
 
 const (
-	apiName     string = "KvK"
-	apiPath     string = "https://api.kvk.nl/api/v1"
-	apiPathTest string = "https://developers.kvk.nl/test/api/v1"
+	apiName       string = "KvK"
+	apiPath       string = "https://api.kvk.nl/api/v1"
+	apiPathTest   string = "https://developers.kvk.nl/test/api/v1"
+	regexPostcode string = `^[1-9]{1}[0-9]{3}[ ]{0,1}[a-zA-Z]{2}$`
 )
 
 type Service struct {
 	apiKey        string
 	isTest        bool
 	httpService   *go_http.Service
+	rPostcode     *regexp.Regexp
 	errorResponse *ErrorResponse
 }
 
@@ -29,6 +32,10 @@ type ServiceConfig struct {
 	ApiKey   string
 	PemCerts []byte
 	IsTest   bool
+}
+
+func (service *Service) ValidatePostcode(postcode string) bool {
+	return service.rPostcode.Match([]byte(postcode))
 }
 
 func NewService(serviceConfig *ServiceConfig) (*Service, *errortools.Error) {
@@ -65,6 +72,7 @@ func NewService(serviceConfig *ServiceConfig) (*Service, *errortools.Error) {
 		apiKey:      serviceConfig.ApiKey,
 		isTest:      serviceConfig.IsTest,
 		httpService: httpService,
+		rPostcode:   regexp.MustCompile(regexPostcode),
 	}, nil
 }
 
