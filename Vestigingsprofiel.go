@@ -28,7 +28,7 @@ func (service *Service) GetVestigingsprofiel(config *VestigingsprofielConfig) (*
 
 	requestConfig := go_http.RequestConfig{
 		Method:        http.MethodGet,
-		Url:           service.url(fmt.Sprintf("vestigingsprofielen/%v", config.Vestigingsnummer), &values),
+		Url:           service.urlV1(fmt.Sprintf("vestigingsprofielen/%v", config.Vestigingsnummer), &values),
 		ResponseModel: &vestiging,
 	}
 

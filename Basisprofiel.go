@@ -28,7 +28,7 @@ func (service *Service) GetBasisprofiel(config *BasisprofielConfig) (*Basisprofi
 
 	requestConfig := go_http.RequestConfig{
 		Method:        http.MethodGet,
-		Url:           service.url(fmt.Sprintf("basisprofielen/%s", config.KvkNummer), &values),
+		Url:           service.urlV1(fmt.Sprintf("basisprofielen/%s", config.KvkNummer), &values),
 		ResponseModel: &basisprofiel,
 	}
 
@@ -54,7 +54,7 @@ func (service *Service) GetBasisprofielEigenaar(config *BasisprofielConfig) (*Ei
 
 	requestConfig := go_http.RequestConfig{
 		Method:        http.MethodGet,
-		Url:           service.url(fmt.Sprintf("basisprofielen/%s/eigenaar", config.KvkNummer), &values),
+		Url:           service.urlV1(fmt.Sprintf("basisprofielen/%s/eigenaar", config.KvkNummer), &values),
 		ResponseModel: &eigenaar,
 	}
 
@@ -80,7 +80,7 @@ func (service *Service) GetBasisprofielHoofdvestiging(config *BasisprofielConfig
 
 	requestConfig := go_http.RequestConfig{
 		Method:        http.MethodGet,
-		Url:           service.url(fmt.Sprintf("basisprofielen/%s/hoofdvestiging", config.KvkNummer), &values),
+		Url:           service.urlV1(fmt.Sprintf("basisprofielen/%s/hoofdvestiging", config.KvkNummer), &values),
 		ResponseModel: &vestiging,
 	}
 
@@ -106,7 +106,7 @@ func (service *Service) GetBasisprofielVestigingen(config *BasisprofielConfig) (
 
 	requestConfig := go_http.RequestConfig{
 		Method:        http.MethodGet,
-		Url:           service.url(fmt.Sprintf("basisprofielen/%s/vestigingen", config.KvkNummer), &values),
+		Url:           service.urlV1(fmt.Sprintf("basisprofielen/%s/vestigingen", config.KvkNummer), &values),
 		ResponseModel: &vestigingList,
 	}
 

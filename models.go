@@ -1,13 +1,13 @@
 package kvk
 
 type Resultaat struct {
-	Pagina     int32           `json:"pagina"`
-	Aantal     int32           `json:"aantal"`
-	Totaal     int32           `json:"totaal"`
-	Vorige     string          `json:"vorige"`
-	Volgende   string          `json:"volgende"`
-	Resultaten []ResultaatItem `json:"resultaten"`
-	Links      []Link          `json:"links"`
+	Pagina              int32           `json:"pagina"`
+	ResultatenPerPagina int32           `json:"resultatenPerPagina"`
+	Totaal              int32           `json:"totaal"`
+	Vorige              string          `json:"vorige"`
+	Volgende            string          `json:"volgende"`
+	Resultaten          []ResultaatItem `json:"resultaten"`
+	Links               []Link          `json:"links"`
 }
 
 type ResultaatItem struct {
@@ -21,6 +21,40 @@ type ResultaatItem struct {
 	Postcode             string `json:"postcode"`
 	Plaats               string `json:"plaats"`
 	Type                 string `json:"type"`
+}
+
+type T struct {
+	KvkNummer        string `json:"kvkNummer"`
+	Rsin             string `json:"rsin"`
+	Vestigingsnummer string `json:"vestigingsnummer"`
+	Naam             string `json:"naam"`
+	Adres            struct {
+		BinnenlandsAdres *struct {
+			Type          string `json:"type"`
+			Straatnaam    string `json:"straatnaam"`
+			Huisnummer    int64  `json:"huisnummer"`
+			Huisletter    string `json:"huisletter"`
+			Postcode      string `json:"postcode"`
+			Plaats        string `json:"plaats"`
+			Postbusnummer *int64 `json:"postbusnummer"`
+		} `json:"binnenlandsAdres"`
+		BuitenlandsAdres *struct {
+			StraatHuisnummer   string `json:"straatHuisnummer"`
+			PostcodeWoonplaats string `json:"postcodeWoonplaats"`
+			Land               string `json:"land"`
+		} `json:"buitenlandsAdres"`
+	} `json:"adres"`
+	Type          string `json:"type"`
+	Actief        string `json:"actief"`
+	VervallenNaam string `json:"vervallenNaam"`
+	Links         struct {
+		Basisprofiel struct {
+			Href string `json:"href"`
+		} `json:"basisprofiel"`
+		Vestigingsprofiel struct {
+			Href string `json:"href"`
+		} `json:"vestigingsprofiel"`
+	} `json:"_links"`
 }
 
 type Adres struct {

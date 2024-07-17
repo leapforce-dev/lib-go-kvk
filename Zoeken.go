@@ -21,22 +21,22 @@ type ZoekenConfig struct {
 	KvkNummer          *string
 	Rsin               *string
 	Vestigingsnummer   *string
-	Handelsnaam        *string
+	Naam               *string
 	Straatnaam         *string
 	Plaats             *string
 	PostcodeHuisnummer *struct {
-		Postcode             string
-		Huisnummer           int64
-		HuisnummerToevoeging string
+		Postcode      string
+		Huisnummer    *int64
+		Huisletter    *string
+		Postbusnummer *int64
 	}
 	Type                           *KvkType
 	InclusiefInactieveRegistraties *bool
 	Pagina                         *int
-	Aantal                         *int
+	ResultatenPerPagina            *int
 }
 
 // GetAccounts returns all accounts
-//
 func (service *Service) Zoeken(config *ZoekenConfig) (*[]ResultaatItem, *errortools.Error) {
 	if config == nil {
 		return nil, errortools.ErrorMessage("config must not be nil")
@@ -52,8 +52,8 @@ func (service *Service) Zoeken(config *ZoekenConfig) (*[]ResultaatItem, *errorto
 	if config.Vestigingsnummer != nil {
 		values.Set("vestigingsnummer", *config.Vestigingsnummer)
 	}
-	if config.Handelsnaam != nil {
-		values.Set("handelsnaam", *config.Handelsnaam)
+	if config.Naam != nil {
+		values.Set("naam", *config.Naam)
 	}
 	if config.Straatnaam != nil {
 		values.Set("straatnaam", *config.Straatnaam)
@@ -63,9 +63,14 @@ func (service *Service) Zoeken(config *ZoekenConfig) (*[]ResultaatItem, *errorto
 	}
 	if config.PostcodeHuisnummer != nil {
 		values.Set("postcode", config.PostcodeHuisnummer.Postcode)
-		values.Set("huisnummer", fmt.Sprintf("%v", config.PostcodeHuisnummer.Huisnummer))
-		if config.PostcodeHuisnummer.HuisnummerToevoeging != "" {
-			values.Set("huisnummerToevoeging", config.PostcodeHuisnummer.HuisnummerToevoeging)
+		if config.PostcodeHuisnummer.Huisnummer != nil {
+			values.Set("huisnummer", fmt.Sprintf("%v", *config.PostcodeHuisnummer.Huisnummer))
+		}
+		if config.PostcodeHuisnummer.Huisletter != nil {
+			values.Set("huisletter", *config.PostcodeHuisnummer.Huisletter)
+		}
+		if config.PostcodeHuisnummer.Postbusnummer != nil {
+			values.Set("postbusnummer", fmt.Sprintf("%v", *config.PostcodeHuisnummer.Postbusnummer))
 		}
 	}
 	if config.Type != nil {
@@ -74,8 +79,8 @@ func (service *Service) Zoeken(config *ZoekenConfig) (*[]ResultaatItem, *errorto
 	if config.InclusiefInactieveRegistraties != nil {
 		values.Set("inclusiefInactieveRegistraties", fmt.Sprintf("%v", *config.InclusiefInactieveRegistraties))
 	}
-	if config.Aantal != nil {
-		values.Set("aantal", fmt.Sprintf("%v", *config.Aantal))
+	if config.ResultatenPerPagina != nil {
+		values.Set("resultatenPerPagina", fmt.Sprintf("%v", *config.ResultatenPerPagina))
 	}
 
 	page := 1
@@ -92,7 +97,7 @@ func (service *Service) Zoeken(config *ZoekenConfig) (*[]ResultaatItem, *errorto
 
 		requestConfig := go_http.RequestConfig{
 			Method:        http.MethodGet,
-			Url:           service.url("zoeken", &values),
+			Url:           service.urlV2("zoeken", &values),
 			ResponseModel: &resultaat,
 		}
 

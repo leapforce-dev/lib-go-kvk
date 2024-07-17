@@ -15,7 +15,8 @@ import (
 
 const (
 	apiName       string = "KvK"
-	apiPath       string = "https://api.kvk.nl/api/v1"
+	apiPathV1     string = "https://api.kvk.nl/api/v1"
+	apiPathV2     string = "https://api.kvk.nl/api/v2"
 	apiPathTest   string = "https://developers.kvk.nl/test/api/v1"
 	regexPostcode string = `^[1-9]{1}[0-9]{3}[ ]{0,1}[a-zA-Z]{2}$`
 )
@@ -89,14 +90,29 @@ func (service *Service) httpRequest(requestConfig *go_http.RequestConfig) (*http
 	return request, response, e
 }
 
-func (service *Service) url(path string, values *url.Values) string {
+func (service *Service) urlV1(path string, values *url.Values) string {
 	values_ := url.Values{}
 	if values != nil {
 		values_ = *values
 	}
 	values_.Set("user_key", service.apiKey)
 
-	apiPath_ := apiPath
+	apiPath_ := apiPathV1
+	if service.isTest {
+		apiPath_ = apiPathTest
+	}
+
+	return fmt.Sprintf("%s/%s?%s", apiPath_, path, values_.Encode())
+}
+
+func (service *Service) urlV2(path string, values *url.Values) string {
+	values_ := url.Values{}
+	if values != nil {
+		values_ = *values
+	}
+	values_.Set("user_key", service.apiKey)
+
+	apiPath_ := apiPathV2
 	if service.isTest {
 		apiPath_ = apiPathTest
 	}
