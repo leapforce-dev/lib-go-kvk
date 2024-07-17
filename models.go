@@ -11,19 +11,6 @@ type Resultaat struct {
 }
 
 type ResultaatItem struct {
-	KvkNummer            string `json:"kvkNummer"`
-	Rsin                 string `json:"rsin"`
-	Vestigingsnummer     string `json:"vestigingsnummer"`
-	Handelsnaam          string `json:"handelsnaam"`
-	Straatnaam           string `json:"straatnaam"`
-	Huisnummer           int64  `json:"huisnummer"`
-	HuisnummerToevoeging string `json:"huisnummerToevoeging"`
-	Postcode             string `json:"postcode"`
-	Plaats               string `json:"plaats"`
-	Type                 string `json:"type"`
-}
-
-type T struct {
 	KvkNummer        string `json:"kvkNummer"`
 	Rsin             string `json:"rsin"`
 	Vestigingsnummer string `json:"vestigingsnummer"`
