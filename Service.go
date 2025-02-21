@@ -1,16 +1,12 @@
 package kvk
 
 import (
-	"crypto/tls"
-	"crypto/x509"
 	"fmt"
+	errortools "github.com/leapforce-libraries/go_errortools"
+	go_http "github.com/leapforce-libraries/go_http"
 	"net/http"
 	"net/url"
 	"regexp"
-	"time"
-
-	errortools "github.com/leapforce-libraries/go_errortools"
-	go_http "github.com/leapforce-libraries/go_http"
 )
 
 const (
@@ -30,9 +26,8 @@ type Service struct {
 }
 
 type ServiceConfig struct {
-	ApiKey   string
-	PemCerts []byte
-	IsTest   bool
+	ApiKey string
+	IsTest bool
 }
 
 func (service *Service) ValidatePostcode(postcode string) bool {
@@ -48,19 +43,7 @@ func NewService(serviceConfig *ServiceConfig) (*Service, *errortools.Error) {
 		return nil, errortools.ErrorMessage("Service ApiKey not provided")
 	}
 
-	// kvk api requires certificate chain
-	certPool := x509.NewCertPool()
-	certPool.AppendCertsFromPEM(serviceConfig.PemCerts)
-
-	transport := http.DefaultTransport.(*http.Transport).Clone()
-	transport.TLSClientConfig = &tls.Config{
-		RootCAs: certPool,
-	}
-
-	httpClient := &http.Client{
-		Timeout:   15 * time.Second,
-		Transport: transport,
-	}
+	httpClient := &http.Client{}
 
 	httpService, e := go_http.NewService(&go_http.ServiceConfig{
 		HttpClient: httpClient,
